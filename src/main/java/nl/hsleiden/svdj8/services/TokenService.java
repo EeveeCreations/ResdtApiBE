@@ -8,6 +8,7 @@ import nl.hsleiden.svdj8.models.tables.Admin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
+@Service
 public class TokenService {
 
 //     TODO: Considder if this is save
@@ -62,7 +64,7 @@ public class TokenService {
         return decodedJWT.getSubject();
     }
     public Collection<SimpleGrantedAuthority> getRolesFromToken(String token){
-        Algorithm algorithm = Algorithm.HMAC256(this.algorithm.getBytes());
+        Algorithm algorithm = returnAlgorithm();
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
         String[] roles = decodedJWT.getClaim("role").asArray(String.class);

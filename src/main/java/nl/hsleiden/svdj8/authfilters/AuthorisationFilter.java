@@ -46,8 +46,6 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                     response.setContentType( APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), errors);
                 }
-            } else {
-
             }
         }
 

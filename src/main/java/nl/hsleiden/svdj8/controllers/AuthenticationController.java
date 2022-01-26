@@ -33,6 +33,7 @@ public class AuthenticationController {
 
     @Autowired
     private final AdminDAO adminDAO;
+
     @Autowired
     private final TokenService tokenService;
 
