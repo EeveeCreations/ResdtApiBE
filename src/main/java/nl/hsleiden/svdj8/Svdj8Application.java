@@ -1,7 +1,6 @@
 package nl.hsleiden.svdj8;
 
 import nl.hsleiden.svdj8.daos.AdminDAO;
-import nl.hsleiden.svdj8.models.tables.Admin;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,12 +24,13 @@ public class Svdj8Application {
 		SpringApplication.run(Svdj8Application.class, args);
 	}
 //	AddAdmins
-@Bean
-CommandLineRunner runner(AdminDAO adminDAO){
-	return args -> {
-            adminDAO.addAdmin(new Admin(null,"Eevee","root112","Admin"));
-	};
-}
+	@Bean
+	CommandLineRunner runner(AdminDAO adminDAO){
+		return args -> {
+
+//				adminDAO.addAdmin(new Admin(null,"Eevee","root112","Admin"));
+		};
+	}
 
 	@Bean
 	public Docket api() {

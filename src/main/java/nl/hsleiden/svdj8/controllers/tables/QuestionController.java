@@ -24,7 +24,6 @@ public class QuestionController {
         this.answerDAO = answerDAO;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/question/all")
     public List<Question> getAllQuestions() {
         return questionDAO.getAll();

@@ -1,6 +1,5 @@
 package nl.hsleiden.svdj8.daos;
 
-import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import nl.hsleiden.svdj8.models.tables.Admin;
 import nl.hsleiden.svdj8.repository.AdminRepository;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,7 +26,7 @@ public class AdminDAO  implements UserDetailsService {
 //    private final PasswordEncoder passwordEncoder;
 
     public List<Admin> getAll() {
-        ArrayList<Admin> admins = (ArrayList<Admin>) this.adminRepository.findAll();
+        ArrayList<Admin> admins = (ArrayList<Admin>) adminRepository.findAll();
         admins.sort(Comparator.comparingLong(Admin::getAdminID));
         return admins;
     }
@@ -48,9 +46,13 @@ public class AdminDAO  implements UserDetailsService {
     public void deleteAdmin(long id) {
         adminRepository.deleteById(id);
     }
+
     public Admin addAdmin(Admin newAdmin) {
         newAdmin.setPassword(this.passwordEncoder.encode(newAdmin.getPassword()));
         return adminRepository.save(newAdmin);
+    }
+    public Admin getAdminByName(String adminName){
+           return adminRepository.findByName(adminName);
     }
 
     @Override
