@@ -58,7 +58,7 @@ public class AdminDAO  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Admin admin =  adminRepository.findByName(name);
-        if(admin != null){
+        if(admin == null){
             throw new UsernameNotFoundException("User is not found (Name incorrect)");
         }
         return new User(admin.getName(), admin.getPassword(),grantAuthorities(admin));

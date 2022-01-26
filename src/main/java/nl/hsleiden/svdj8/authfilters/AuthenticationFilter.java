@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
+@CrossOrigin("http://localhost:4200")
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -28,7 +30,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        tokenService = new TokenService();
+        this.tokenService = new TokenService();
     }
 
     @Override
@@ -36,7 +38,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(username, password);
+
         return authenticationManager.authenticate(authToken);
     }
 
@@ -48,9 +52,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken = this.tokenService.createToken(user, request, "refresh");
 
         Map<String,String> tokens = new HashMap<>();
-        tokens.put("accesToken",accessToken);
+        tokens.put("username", user.getUsername());
+        tokens.put("role", user.getAuthorities().toString());
+        tokens.put("accessToken",accessToken);
         tokens.put("refreshToken",refreshToken);
+
         response.setContentType( APPLICATION_JSON_VALUE);
+        response.setHeader(
+                "Access-Control-Allow-Origin","http://localhost:4200");
+        response.addHeader(
+                "Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
+        response.setStatus(200);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }

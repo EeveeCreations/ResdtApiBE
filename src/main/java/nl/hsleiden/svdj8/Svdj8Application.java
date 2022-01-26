@@ -1,11 +1,14 @@
 package nl.hsleiden.svdj8;
 
 import nl.hsleiden.svdj8.daos.AdminDAO;
+import nl.hsleiden.svdj8.models.tables.Admin;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -23,15 +26,26 @@ public class Svdj8Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Svdj8Application.class, args);
 	}
-//	AddAdmins
+
 	@Bean
 	CommandLineRunner runner(AdminDAO adminDAO){
 		return args -> {
-
 //				adminDAO.addAdmin(new Admin(null,"Eevee","root112","Admin"));
+//							adminDAO.addAdmin(new Admin(null,"Eevee2","3ff1d66d2b6f0a0121f7a88d4de4d75d","Admin"));
+//							adminDAO.addAdmin(new Admin(null,"Brandon","Noodels","Admin"));
 		};
 	}
 
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+			}
+		};
+	}
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)

@@ -11,10 +11,7 @@ import nl.hsleiden.svdj8.models.tables.Admin;
 import nl.hsleiden.svdj8.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,6 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class AuthenticationController {
 
     @Autowired
@@ -58,10 +56,11 @@ public class AuthenticationController {
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("id", admin.getAdminID().toString());
                 tokens.put("name", admin.getName());
-                tokens.put("passcode", admin.getPassword());
+                tokens.put("password", admin.getPassword());
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
+                response.setHeader("Access-Control-Allow-Origin","http://localhost4200");
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception exception) {
@@ -69,6 +68,7 @@ public class AuthenticationController {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
+                response.setHeader("Access-Control-Allow-Origin","http://localhost4200");
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }

@@ -15,10 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:4200")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -37,9 +39,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         httpSec.csrf().disable();
         httpSec.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSec.addFilter(authenticationFilter);
         chooseAuthorisedRequests(httpSec);
-        httpSec.authorizeRequests().anyRequest().authenticated();
+        httpSec.addFilter(authenticationFilter);
         httpSec.addFilterBefore(new AuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
