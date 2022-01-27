@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -59,8 +60,7 @@ public class AuthenticationController {
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
-                response.setHeader("Access-Control-Allow-Origin","http://localhost:4200");
-                response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
 
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
@@ -69,9 +69,7 @@ public class AuthenticationController {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
-                response.setHeader("Access-Control-Allow-Origin","http://localhost:4200");
-                response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-
+                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }

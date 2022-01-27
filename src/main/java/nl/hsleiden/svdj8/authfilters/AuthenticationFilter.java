@@ -58,11 +58,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         tokens.put("refreshToken",refreshToken);
 
         response.setContentType( APPLICATION_JSON_VALUE);
-        response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        response.setHeader("Access-Control-Expose-Headers","*");
-        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+//        response.addHeader("Access-Control-Expose-Headers", "Authorization");
+//        response.addHeader("Access-Control-Expose-Headers","*");
+        response.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
 
-        response.setHeader(
+        response.addHeader(
                 "Access-Control-Allow-Origin","http://localhost:4200");
         response.addHeader(
                 "Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
