@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSec) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         httpSec.csrf().disable();
+        httpSec.cors();
         httpSec.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         chooseAuthorisedRequests(httpSec);
         httpSec.addFilter(authenticationFilter);

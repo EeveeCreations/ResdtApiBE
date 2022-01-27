@@ -54,13 +54,14 @@ public class AuthenticationController {
                 Admin admin = adminDAO.getAdminByName(adminName);
                 String accessToken = tokenService.createForRefreshToken(admin);
                 Map<String, String> tokens = new HashMap<>();
-                tokens.put("id", admin.getAdminID().toString());
                 tokens.put("name", admin.getName());
                 tokens.put("password", admin.getPassword());
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
-                response.setHeader("Access-Control-Allow-Origin","http://localhost4200");
+                response.setHeader("Access-Control-Allow-Origin","http://localhost:4200");
+                response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception exception) {
@@ -68,7 +69,9 @@ public class AuthenticationController {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
-                response.setHeader("Access-Control-Allow-Origin","http://localhost4200");
+                response.setHeader("Access-Control-Allow-Origin","http://localhost:4200");
+                response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }

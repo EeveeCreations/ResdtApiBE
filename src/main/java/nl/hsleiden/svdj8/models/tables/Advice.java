@@ -1,5 +1,3 @@
-//TODO: Delete
-
 package nl.hsleiden.svdj8.models.tables;
 
 import java.util.Set;
