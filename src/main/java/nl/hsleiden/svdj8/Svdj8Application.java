@@ -62,7 +62,7 @@ public class Svdj8Application {
 				"Spring Boot REST API for Svdj Application",
 				"1.0",
 				"Terms of service",
-				new Contact("Brandon Plokeker, Eefje Karremans", "https://springframework.guru/about/", "bla@bla.nl"),
+				new Contact("Brandon Plokker, Eefje Karremans", "https://springframework.guru/about/", "bla@bla.nl"),
 				"Apache License Version 2.0",
 				"https://www.apache.org/licenses/LICENSE-2.0",
 				Collections.emptyList());
