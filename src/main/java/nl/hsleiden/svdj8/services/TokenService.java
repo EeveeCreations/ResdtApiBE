@@ -39,6 +39,10 @@ public class TokenService {
 
     }
 
+    public void createPasswordToken(Admin admin,){
+
+    }
+
      public Algorithm returnAlgorithm(){
          return Algorithm.HMAC256(this.algorithm.getBytes());
      }

@@ -69,4 +69,10 @@ public class AdminDAO  implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(admin.getRole()));
         return authorities;
     }
+
+    public Admin updatePassword(String newPassword,String name) {
+        Admin  admin = getAdminByName(name);
+        admin.setPassword(this.passwordEncoder.encode(newPassword));
+        return adminRepository.save(admin);
+    }
 }

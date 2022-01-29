@@ -34,6 +34,8 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                 request.getServletPath().equals("/auth/register")) {
             filterChain.doFilter(request, response);
         } else {
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader(ACCESS_CONTROL_ALLOW_HEADERS, "Authorization, Content-Type");
             Enumeration<String> headers = request.getHeaderNames();
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

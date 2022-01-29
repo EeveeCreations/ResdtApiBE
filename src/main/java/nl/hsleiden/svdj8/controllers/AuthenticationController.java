@@ -1,13 +1,10 @@
 package nl.hsleiden.svdj8.controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import nl.hsleiden.svdj8.daos.AdminDAO;
 import nl.hsleiden.svdj8.models.tables.Admin;
+import nl.hsleiden.svdj8.services.EmailService;
 import nl.hsleiden.svdj8.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,6 +32,8 @@ public class AuthenticationController {
 
     @Autowired
     private final TokenService tokenService;
+    @Autowired
+    private final EmailService emailService;
 
 
     @PostMapping(value = "/register")
@@ -60,7 +59,7 @@ public class AuthenticationController {
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
+                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
 
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
@@ -69,15 +68,37 @@ public class AuthenticationController {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
+                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
             filterChain.doFilter(request, response);
         }
-
-
     }
+
+    @PostMapping(value = "/requestchangepassword")
+    public void sendEmailToReset(
+            HttpServletResponse response,
+            @RequestBody String email) {
+        Admin admin = this.adminDAO.getAdminByName(email);
+        if (admin == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        this.emailService.setUpEmail(email, admin);
+        response.setStatus(HttpServletResponse.SC_FOUND);
+    }
+
+    @PostMapping(value = "/resetPassword")
+    public Admin resetPassword(
+            HttpServletResponse response,
+            @RequestBody String newPassword, @RequestBody String passwordToken) {
+        String name = this.emailService.checkTokenForAdmin(passwordToken);
+        if (name == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return adminDAO.updatePassword(newPassword, name);
+    }
+
 }
 
