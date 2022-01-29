@@ -39,7 +39,7 @@ public class TokenService {
 
     }
 
-    public void createPasswordToken(Admin admin,){
+    public void createPasswordToken(Admin admin){
 
     }
 
