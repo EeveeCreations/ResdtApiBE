@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-@CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "**")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class AuthorisationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService = new TokenService();

@@ -44,7 +44,7 @@ public class Svdj8Application {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-type", "x-auth-token"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Origin","Content-type", "x-auth-token"));
 		configuration.setExposedHeaders(Arrays.asList("Authorization","x-auth-token"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
