@@ -39,7 +39,7 @@ public class QuestionController {
         Question resultQuestion = questionDAO.getByIdOptional(id)
                 .map(question -> {
                     question.setQuestionText(editQuestion.getQuestionText());
-                    question.setExtraInfoTitle(editQuestion.getExtraInfoTitle());
+                    question.setExtraInfoTile(editQuestion.getExtraInfoTile());
                     question.setExtraInfoDescription(editQuestion.getExtraInfoDescription());
                     question.setExtraInfoVideoURL(editQuestion.getExtraInfoVideoURL());
                     question.setAnswers(editQuestion.getAnswers());
