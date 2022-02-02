@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200/", "*"})
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -60,8 +60,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType( APPLICATION_JSON_VALUE);
 //        response.addHeader("Access-Control-Expose-Headers", "Authorization");
 //        response.addHeader("Access-Control-Expose-Headers","*");
-        response.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-
+        response.addHeader("Access-Control-Allow-Headers", "Authorization, ContentType, Origin");
         response.addHeader(
                 "Access-Control-Allow-Origin","http://localhost:4200");
         response.addHeader(

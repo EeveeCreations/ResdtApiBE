@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200/", "*"})
 public class AuthenticationController {
 
     @Autowired
