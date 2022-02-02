@@ -21,8 +21,7 @@ import java.util.Map;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@CrossOrigin(origins = {"*/", "*"})
-
+@CrossOrigin(origins = {"*"})
 public class AuthorisationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService = new TokenService();
@@ -31,13 +30,11 @@ public class AuthorisationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        response.addHeader(ACCESS_CONTROL_ALLOW_HEADERS, "Authorization, ContentType, Origin");
-        response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
-        response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET,POST,DELETE,PUT");
-        response.addHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        response.setContentType(APPLICATION_JSON_VALUE);
         if (request.getServletPath().equals("/login") ||
                 request.getServletPath().equals("/auth/token/refresh") ||
-                request.getServletPath().equals("/auth/register")) {
+                request.getServletPath().equals("/auth/register") ||
+                request.getServletPath().equals("question/all")) {
             filterChain.doFilter(request, response);
         } else {
             Enumeration<String> headers = request.getHeaderNames();
@@ -50,40 +47,20 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userName, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
-                    response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET,POST,DELETE,PUT");
-                    response.addHeader("Access-Control-Allow-Credentials", "true");
-                    response.addHeader(ACCESS_CONTROL_ALLOW_HEADERS, "Authorization, ContentType");
                     response.setStatus(200);
                     filterChain.doFilter(request, response);
                 } catch (Exception exception) {
                     response.setHeader("errors", exception.getMessage());
-                    Map<String,String> errors = new HashMap<>();
-                    errors.put("errors",exception.getMessage());
-                    response.setContentType( APPLICATION_JSON_VALUE);
-                    errors.put("errors",exception.getMessage());
-                    response.addHeader("Access-Control-Expose-Headers", "Authorization");
-                    response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
-                    response.addHeader(
-                            "Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
-                    response.addHeader("Access-Control-Allow-Credentials", "true");
-                    response.addHeader("Access-Control-Allow-Headers", "ContentType, Authorization, X-Requested-With");
+                    Map<String, String> errors = new HashMap<>();
+                    errors.put("errors", exception.getMessage());
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.setContentType( APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), errors);
                 }
-            }else {
+            } else {
                 response.setHeader("errors", "no authizati");
-                Map<String,String> errors = new HashMap<>();
-                errors.put("errors","no auth");
+                Map<String, String> errors = new HashMap<>();
+                errors.put("errors", "no auth");
                 response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-                response.setHeader("Access-Control-Expose-Headers", "Authorization");
-                response.setHeader("Access-Control-Allow-Origin","*");
-                response.addHeader(
-                        "Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
-                response.setHeader("Access-Control-Allow-Credentials", "true");
-                response.setHeader("Access-Control-Allow-Headers", "ContentType, Authorization, X-Requested-With");
-                response.setContentType( APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), errors);
             }
         }

@@ -1,6 +1,7 @@
 package nl.hsleiden.svdj8;
 
 import nl.hsleiden.svdj8.daos.AdminDAO;
+import nl.hsleiden.svdj8.models.tables.Admin;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,6 +36,9 @@ public class Svdj8Application {
         return args -> {
 //				adminDAO.addAdmin(new Admin(null,"Eevee","root112","Admin"));
 //							adminDAO.addAdmin(new Admin(null,"Eevee2","3ff1d66d2b6f0a0121f7a88d4de4d75d","Admin"));
+//							adminDAO.addAdmin(new Admin(null,"Admin","1844156d4166d94387f1a4ad031ca5fa" //admin12
+//							,"Admin"));
+
 //							adminDAO.addAdmin(new Admin(null,"Brandon","Noodels","Admin"));
         };
     }
@@ -42,10 +46,10 @@ public class Svdj8Application {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200/", "http://localhost:4200","*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200/"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Origin", "ContentType"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Origin", "ContentType"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Origin", "content-type", "contenttype"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Origin", "content-type", "contenttype"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -57,8 +61,7 @@ public class Svdj8Application {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200/");
-                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-                registry.addMapping("/**").allowedOrigins("*");
+//                registry.addMapping("/**").allowedOrigins("*");
 
                 registry.addMapping("/**").allowedHeaders("Authorization", "Origin", "Content-type");
 

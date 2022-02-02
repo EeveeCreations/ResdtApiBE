@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200/", "*"})
+@CrossOrigin(origins = {"*"})
 public class AuthenticationController {
 
     @Autowired
@@ -60,17 +60,12 @@ public class AuthenticationController {
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
-
-                response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception exception) {
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"http://localhost:4200");
-                response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
