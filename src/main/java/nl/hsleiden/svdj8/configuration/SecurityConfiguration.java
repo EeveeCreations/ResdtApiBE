@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = {"*"})
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -38,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSec) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         httpSec.csrf().disable();
-//        httpSec.cors();
+        httpSec.cors();
         httpSec.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         chooseAuthorisedRequests(httpSec);
         httpSec.addFilter(authenticationFilter);
@@ -46,13 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private void chooseAuthorisedRequests(HttpSecurity httpSec) throws Exception {
-        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"questions/all").permitAll();
-        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"advise/{id}").permitAll();
-        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"grant/all").permitAll();
-        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").permitAll();
-        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"put/{id}").permitAll();
-
-//        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").hasAnyAuthority("platform");
 
         httpSec.authorizeRequests().antMatchers("questions/**").hasAnyAuthority("Admin");
         httpSec.authorizeRequests().antMatchers("advice/**").hasAnyAuthority("Admin");
@@ -62,6 +56,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSec.authorizeRequests().antMatchers("result/**").hasAnyAuthority("Admin");
         httpSec.authorizeRequests().antMatchers("route/**").hasAnyAuthority("Admin");
         httpSec.authorizeRequests().antMatchers("givenAnswer/**").hasAnyAuthority("Admin");
+
+        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"questions/all").permitAll();
+        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"answer/{id}").permitAll();
+        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"advise/{id}").permitAll();
+        httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"grant/all").permitAll();
+        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").permitAll();
+
+        //        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").hasAnyAuthority("platform");
+
     }
 
 

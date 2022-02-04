@@ -3,15 +3,12 @@ package nl.hsleiden.svdj8.controllers.tables;
 import nl.hsleiden.svdj8.daos.AdminDAO;
 import nl.hsleiden.svdj8.models.tables.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     @Autowired

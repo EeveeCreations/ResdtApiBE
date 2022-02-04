@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = { "*"})
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -37,10 +37,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(username, password);
-
         return authenticationManager.authenticate(authToken);
     }
 
@@ -58,14 +56,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         tokens.put("refreshToken",refreshToken);
 
         response.setContentType( APPLICATION_JSON_VALUE);
-//        response.addHeader("Access-Control-Expose-Headers", "Authorization");
-//        response.addHeader("Access-Control-Expose-Headers","*");
-        response.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-
-        response.addHeader(
-                "Access-Control-Allow-Origin","http://localhost:4200");
-        response.addHeader(
-                "Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
+        response.addHeader("Access-Control-Allow-Headers", "Authorization, ContentType, Origin");
+        response.addHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
         response.setStatus(200);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

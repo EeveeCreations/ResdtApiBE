@@ -1,10 +1,10 @@
 package nl.hsleiden.svdj8.controllers;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import nl.hsleiden.svdj8.daos.AdminDAO;
 import nl.hsleiden.svdj8.models.tables.Admin;
-import nl.hsleiden.svdj8.services.EmailService;
 import nl.hsleiden.svdj8.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,13 +18,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = {"*"})
 public class AuthenticationController {
 
     @Autowired
@@ -59,17 +57,12 @@ public class AuthenticationController {
                 tokens.put("role", admin.getRole());
                 tokens.put("accessToken", accessToken);
                 tokens.put("refreshToken", refreshToken);
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
-
-                response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception exception) {
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 Map<String, String> error = new HashMap<>();
                 error.put("error_message", exception.getMessage());
-                response.addHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200");
-                response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
