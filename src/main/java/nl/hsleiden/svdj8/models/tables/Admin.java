@@ -11,15 +11,25 @@ public class Admin {
     private Long adminID;
 
     private String name;
-    private String password; //???????????TODO: CHECK DIT NA
+    private String password;
+    private String role;
 
     public Admin() {
     }
 
-    public Admin(Long adminID, String name, String password) {
+    public Admin(Long adminID, String name, String password, String admin) {
         this.adminID = adminID;
         this.name = name;
         this.password = password;
+        this.role = admin;
+    }
+
+    public Long getAdminID() {
+        return this.adminID;
+    }
+
+    public void setAdminID(Long adminID) {
+        this.adminID = adminID;
     }
 
     public String getName() {
@@ -38,11 +48,11 @@ public class Admin {
         this.password = password;
     }
 
-    public Long getAdminID() {
-        return this.adminID;
+    public String getRole() {
+        return role;
     }
 
-    public void setAdminID(Long adminID) {
-        this.adminID = adminID;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

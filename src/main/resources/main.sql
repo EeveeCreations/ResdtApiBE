@@ -11,17 +11,17 @@ INSERT INTO admin(name, password) VALUES("name3", "password3");
 INSERT INTO admin(name, password) VALUES("name4", "password4");
 INSERT INTO admin(name, password) VALUES("name5", "password5");
 
-CREATE TABLE IF NOT EXISTS "category" (
-	"category_id"	integer,
+CREATE TABLE IF NOT EXISTS "advice" (
+	"advice_id"	integer,
 	"description"	varchar,
-	"name"	varchar NOT NULL UNIQUE,
-	CONSTRAINT "category_pk" PRIMARY KEY("category_id")
+	"name"	varchar NOT NULL,
+	CONSTRAINT "advice_pk" PRIMARY KEY("advice_id")
 );
-INSERT INTO category(description, name) VALUES ("description1", "name1");
-INSERT INTO category(description, name) VALUES ("description2", "name2");
-INSERT INTO category(description, name) VALUES ("description3", "name3");
-INSERT INTO category(description, name) VALUES ("description4", "name4");
-INSERT INTO category(description, name) VALUES ("description5", "name5");
+INSERT INTO advice(description, name) VALUES ("description1", "name1");
+INSERT INTO advice(description, name) VALUES ("description2", "name2");
+INSERT INTO advice(description, name) VALUES ("description3", "name3");
+INSERT INTO advice(description, name) VALUES ("description4", "name4");
+INSERT INTO advice(description, name) VALUES ("description5", "name5");
 
 CREATE TABLE IF NOT EXISTS "question" (
 	"question_id"	integer,
@@ -37,44 +37,6 @@ INSERT INTO question(question_text, extra_info_tile, extra_info_description, ext
 INSERT INTO question(question_text, extra_info_tile, extra_info_description, extra_info_video_url) VALUES("question_text4", "extra_info_tile4", "extra_info_description4", "extra_info_video_url4");
 INSERT INTO question(question_text, extra_info_tile, extra_info_description, extra_info_video_url) VALUES("question_text5", "extra_info_tile5", "extra_info_description5", "extra_info_video_url5");
 
-CREATE TABLE IF NOT EXISTS "question_and_category" (
-	"question_id"	integer NOT NULL,
-	"category_id"	integer NOT NULL,
-	CONSTRAINT "question_and_category_pk" PRIMARY KEY("question_id", "category_id"),
-	CONSTRAINT "question_id_fk" FOREIGN KEY("question_id") REFERENCES "question"("question_id") on update cascade on delete cascade,
-	CONSTRAINT "category_id_fk" FOREIGN KEY("category_id") REFERENCES "category"("category_id") on update cascade on delete cascade
-);
-INSERT INTO "question_and_category" VALUES(1,1);
-INSERT INTO "question_and_category" VALUES(1,2);
-INSERT INTO "question_and_category" VALUES(1,3);
-INSERT INTO "question_and_category" VALUES(1,4);
-INSERT INTO "question_and_category" VALUES(1,5);
-INSERT INTO "question_and_category" VALUES(2,1);
-INSERT INTO "question_and_category" VALUES(2,2);
-INSERT INTO "question_and_category" VALUES(2,3);
-INSERT INTO "question_and_category" VALUES(2,4);
-INSERT INTO "question_and_category" VALUES(2,5);
-
-
-CREATE TABLE IF NOT EXISTS "answer_and_category" (
-	"answer_id"	integer NOT NULL,
-	"category_id"	integer NOT NULL,
-	CONSTRAINT "answer_and_category_pk" PRIMARY KEY("answer_id", "category_id"),
-	CONSTRAINT "answer_id_fk" FOREIGN KEY("answer_id") REFERENCES "answer"("answer_id") on update cascade on delete cascade,
-	CONSTRAINT "category_id_fk" FOREIGN KEY("category_id") REFERENCES "category"("category_id") on update cascade on delete cascade
-);
-
-INSERT INTO "answer_and_category" VALUES(1,1);
-INSERT INTO "answer_and_category" VALUES(1,2);
-INSERT INTO "answer_and_category" VALUES(1,3);
-INSERT INTO "answer_and_category" VALUES(1,4);
-INSERT INTO "answer_and_category" VALUES(1,5);
-INSERT INTO "answer_and_category" VALUES(2,1);
-INSERT INTO "answer_and_category" VALUES(2,2);
-INSERT INTO "answer_and_category" VALUES(2,3);
-INSERT INTO "answer_and_category" VALUES(2,4);
-INSERT INTO "answer_and_category" VALUES(2,5);
-
 CREATE TABLE IF NOT EXISTS "grant" (
 	"grant_id"	integer,
 	"name"	varchar NOT NULL UNIQUE,
@@ -88,38 +50,38 @@ INSERT INTO grant(name, description) VALUES("name4", "description4");
 INSERT INTO grant(name, description) VALUES("name5", "description5");
 
 
-CREATE TABLE IF NOT EXISTS "grant_and_category" (
+CREATE TABLE IF NOT EXISTS "grant_and_advice" (
 	"grant_id"	integer NOT NULL,
-	"category_id"	integer NOT NULL,
-	CONSTRAINT "grant_and_category_pk" PRIMARY KEY("grant_id", "category_id"),
+	"advice_id"	integer NOT NULL,
+	CONSTRAINT "grant_and_advice_pk" PRIMARY KEY("grant_id", "advice_id"),
 	CONSTRAINT "grant_id_fk" FOREIGN KEY("grant_id") REFERENCES "grant"("grant_id") on update cascade on delete cascade,
-	CONSTRAINT "category_id_fk" FOREIGN KEY("category_id") REFERENCES "category"("category_id") on update cascade on delete cascade
+	CONSTRAINT "advice_id_fk" FOREIGN KEY("advice_id") REFERENCES "advice"("advice_id") on update cascade on delete cascade
 );
 
-INSERT INTO "grant_and_category" VALUES(1,1);
-INSERT INTO "grant_and_category" VALUES(1,2);
-INSERT INTO "grant_and_category" VALUES(1,3);
-INSERT INTO "grant_and_category" VALUES(1,4);
-INSERT INTO "grant_and_category" VALUES(1,5);
-INSERT INTO "grant_and_category" VALUES(2,1);
-INSERT INTO "grant_and_category" VALUES(2,2);
-INSERT INTO "grant_and_category" VALUES(2,3);
-INSERT INTO "grant_and_category" VALUES(2,4);
-INSERT INTO "grant_and_category" VALUES(2,5);
+INSERT INTO "grant_and_advice" VALUES(1,1);
+INSERT INTO "grant_and_advice" VALUES(1,2);
+INSERT INTO "grant_and_advice" VALUES(1,3);
+INSERT INTO "grant_and_advice" VALUES(1,4);
+INSERT INTO "grant_and_advice" VALUES(1,5);
+INSERT INTO "grant_and_advice" VALUES(2,1);
+INSERT INTO "grant_and_advice" VALUES(2,2);
+INSERT INTO "grant_and_advice" VALUES(2,3);
+INSERT INTO "grant_and_advice" VALUES(2,4);
+INSERT INTO "grant_and_advice" VALUES(2,5);
 
 CREATE TABLE IF NOT EXISTS "result" (
 	"result_id"	integer NOT NULL,
-	"grant_id"	integer NOT NULL,
+	"advice_id"	integer NOT NULL,
 	"amount_questions"	integer,
 	"total_time"	text,
 	CONSTRAINT "result_pk" PRIMARY KEY("result_id"),
-	CONSTRAINT "result_grant_fk" FOREIGN KEY("grant_id") REFERENCES "grant" on update cascade on delete restrict
+	CONSTRAINT "result_advice_fk" FOREIGN KEY("advice_id") REFERENCES "advice" on update cascade on delete restrict
 );
-INSERT INTO result(grant_id, amount_questions, total_time) VALUES(1, 10, datetime("now"));
-INSERT INTO result(grant_id, amount_questions, total_time) VALUES(1, 20, datetime("now"));
-INSERT INTO result(grant_id, amount_questions, total_time) VALUES(1, 30, datetime("now"));
-INSERT INTO result(grant_id, amount_questions, total_time) VALUES(1, 40, datetime("now"));
-INSERT INTO result(grant_id, amount_questions, total_time) VALUES(1, 50, datetime("now"));
+INSERT INTO result(advice_id, amount_questions, total_time) VALUES(1, 10, datetime("now"));
+INSERT INTO result(advice_id, amount_questions, total_time) VALUES(1, 20, datetime("now"));
+INSERT INTO result(advice_id, amount_questions, total_time) VALUES(1, 30, datetime("now"));
+INSERT INTO result(advice_id, amount_questions, total_time) VALUES(1, 40, datetime("now"));
+INSERT INTO result(advice_id, amount_questions, total_time) VALUES(1, 50, datetime("now"));
 
 CREATE TABLE IF NOT EXISTS "route" (
 	"route_id"	integer,
@@ -138,21 +100,23 @@ CREATE TABLE IF NOT EXISTS "answer" (
 	"answer_id"	integer,
 	"question_id"	integer NOT NULL,
 	"answer_text"	varchar NOT NULL,
-	"category_id"	integer NOT NULL,
+	"next_question_id"	integer,
+	"advice_id" integer,
 	CONSTRAINT "answer_pk" PRIMARY KEY("answer_id"),
-	CONSTRAINT "answer_to_category_fk" FOREIGN KEY("category_id") REFERENCES "category" on update cascade on delete     restrict,
+	CONSTRAINT "answer_to_next_question_fk" FOREIGN KEY("next_question_id") REFERENCES "question" on update cascade on delete restrict,
 	CONSTRAINT "answer_to_question_fk" FOREIGN KEY("question_id") REFERENCES "question" on update cascade on delete restrict
+	CONSTRAINT "answer_to_advice_fk" FOREIGN KEY("advice_id") REFERENCES "advice" on update cascade on delete restrict
 );
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(1, "answer_text1", 1);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(2, "answer_text2", 2);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(3, "answer_text3", 3);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(4, "answer_text4", 4);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(5, "answer_text5", 5);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(1, "answer_text6", 1);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(2, "answer_text7", 2);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(3, "answer_text8", 3);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(4, "answer_text9", 4);
-INSERT INTO answer(question_id, answer_text, category_id) VALUES(5, "answer_text10", 5);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(1, "answer_text1", 2, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(2, "answer_text2", 3, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(3, "answer_text3", 4, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(4, "answer_text4", 5, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(5, "answer_text5", null, 1);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(1, "answer_text6", null, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(2, "answer_text7", null, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(3, "answer_text8", null, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(4, "answer_text9", null, null);
+INSERT INTO answer(question_id, answer_text, next_question_id, advice_id) VALUES(5, "answer_text10", null, 2);
 
 CREATE TABLE IF NOT EXISTS "given_answer" (
 	"given_answer_id"	integer,

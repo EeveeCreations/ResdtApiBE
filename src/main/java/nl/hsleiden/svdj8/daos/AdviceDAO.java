@@ -1,8 +1,6 @@
 package nl.hsleiden.svdj8.daos;
 
-import javassist.NotFoundException;
-import nl.hsleiden.svdj8.models.tables.Answer;
-import nl.hsleiden.svdj8.models.tables.Category;
+import nl.hsleiden.svdj8.models.tables.Advice;
 import nl.hsleiden.svdj8.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,36 +10,36 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 @Component
-public class CategoryDAO {
+public class AdviceDAO {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryDAO(CategoryRepository categoryRepository) {
+    public AdviceDAO(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAll() {
-        ArrayList<Category> categories = (ArrayList<Category>) categoryRepository.findAll();
-        categories.sort(Comparator.comparingLong(Category::getCategoryID));
+    public List<Advice> getAll() {
+        ArrayList<Advice> categories = (ArrayList<Advice>) categoryRepository.findAll();
+        categories.sort(Comparator.comparingLong(Advice::getAdviceID));
         return categories;
     }
 
-    public Optional<Category> getByIdOptional(long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
+    public Optional<Advice> getByIdOptional(long id) {
+        Optional<Advice> optionalCategory = categoryRepository.findById(id);
         return optionalCategory;
     }
 
-    public Category getById(long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
+    public Advice getById(long id) {
+        Optional<Advice> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with the id: " + id + " not found");
         }
         return optionalCategory.get();
     }
 
-    public Category addCategory(Category newCategory) {
-        return categoryRepository.save(newCategory);
+    public Advice addCategory(Advice newAdvice) {
+        return categoryRepository.save(newAdvice);
     }
 
     public void deleteCategory(long id) {

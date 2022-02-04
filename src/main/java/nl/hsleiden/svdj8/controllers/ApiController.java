@@ -1,12 +1,8 @@
 package nl.hsleiden.svdj8.controllers;
 
 import nl.hsleiden.svdj8.models.Data;
-import nl.hsleiden.svdj8.models.tables.Question;
-import nl.hsleiden.svdj8.services.AuthenticatingService;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.Map;
 
 @RestController

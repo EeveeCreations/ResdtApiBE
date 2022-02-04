@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class QuestionController {
 
     @Autowired
@@ -29,12 +30,12 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/question/{id}")
-    public Question getQuestion(@PathVariable final Long id) {
+    public Question getQuestion(@PathVariable final java.lang.Long id) {
         return questionDAO.getById(id);
     }
 
     @PutMapping(value = "/question/{id}")
-    public Question editQuestion(@RequestBody Question editQuestion, @PathVariable Long id) throws Exception {
+    public Question editQuestion(@RequestBody Question editQuestion, @PathVariable java.lang.Long id) throws Exception {
         Question resultQuestion = questionDAO.getByIdOptional(id)
                 .map(question -> {
                     question.setQuestionText(editQuestion.getQuestionText());
@@ -47,7 +48,7 @@ public class QuestionController {
                 .orElseThrow(() -> new Exception(
                         "No question found with id " + id + "\""));
         for (Answer answer : resultQuestion.getAnswers()) {
-            answer.setQuestionID(resultQuestion.getQuestionID());
+            answer.setParentQuestionID(resultQuestion.getQuestionID());
             answerDAO.addAnswer(answer);
         }
         return resultQuestion;
@@ -57,14 +58,14 @@ public class QuestionController {
     public Question addQuestion(@RequestBody Question newQuestion) {
         Question resultQuestion = questionDAO.addQuestion(newQuestion);
         for (Answer answer : resultQuestion.getAnswers()) {
-            answer.setQuestionID(resultQuestion.getQuestionID());
+            answer.setParentQuestionID(resultQuestion.getQuestionID());
             answerDAO.addAnswer(answer);
         }
         return resultQuestion;
     }
 
     @DeleteMapping("/question/{id}")
-    public void deleteQuestion(@PathVariable Long id) {
+    public void deleteQuestion(@PathVariable java.lang.Long id) {
         questionDAO.deleteQuestion(id);
     }
 }

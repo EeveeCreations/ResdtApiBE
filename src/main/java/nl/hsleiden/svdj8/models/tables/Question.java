@@ -15,7 +15,7 @@ public class Question {
     @Column(name = "question_text")
     private String questionText;
 
-    @OneToMany(mappedBy = "questionID", targetEntity = Answer.class)
+    @OneToMany(mappedBy = "parentQuestionID", targetEntity = Answer.class)
     private List<Answer> answers = new ArrayList<>();
 
     @Column(name = "extra_info_tile")

@@ -18,9 +18,9 @@ public class Result {
     @Column(name = "total_time")
     private Time totalTime;
 
-    @ManyToOne(targetEntity = Grant.class)
-    @JoinColumn(name = "grant_id", nullable = false, referencedColumnName = "grant_id")
-    private Grant grant;
+    @ManyToOne(targetEntity = Advice.class)
+    @JoinColumn(name = "advice_id", nullable = false, referencedColumnName = "advice_id")
+    private Advice advice;
 
     public Result(Long resultID, int amountQuestions, Time totalTime) {
         this.resultID = resultID;
@@ -56,11 +56,11 @@ public class Result {
         this.totalTime = totalTime;
     }
 
-    public Grant getGrant() {
-        return grant;
+    public Advice getAdvice() {
+        return advice;
     }
 
-    public void setGrant(Grant grant) {
-        this.grant = grant;
+    public void setAdvice(Advice advice) {
+        this.advice = advice;
     }
 }

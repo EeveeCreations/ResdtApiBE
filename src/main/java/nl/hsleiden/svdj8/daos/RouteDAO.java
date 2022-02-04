@@ -1,7 +1,5 @@
 package nl.hsleiden.svdj8.daos;
 
-import javassist.NotFoundException;
-import nl.hsleiden.svdj8.models.tables.Question;
 import nl.hsleiden.svdj8.models.tables.Route;
 import nl.hsleiden.svdj8.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

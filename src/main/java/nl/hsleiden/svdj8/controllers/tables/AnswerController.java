@@ -1,26 +1,25 @@
 package nl.hsleiden.svdj8.controllers.tables;
 
 import nl.hsleiden.svdj8.daos.AnswerDAO;
-import nl.hsleiden.svdj8.daos.CategoryDAO;
+import nl.hsleiden.svdj8.daos.AdviceDAO;
 import nl.hsleiden.svdj8.models.tables.Answer;
-import nl.hsleiden.svdj8.models.tables.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class AnswerController {
 
     @Autowired
     public final AnswerDAO answerDAO;
 
-    public final CategoryDAO categoryDAO;
+    public final AdviceDAO adviceDAO;
 
-    public AnswerController(AnswerDAO answerDAO, CategoryDAO categoryDAO) {
+    public AnswerController(AnswerDAO answerDAO, AdviceDAO adviceDAO) {
         this.answerDAO = answerDAO;
-        this.categoryDAO = categoryDAO;
+        this.adviceDAO = adviceDAO;
     }
 
     @GetMapping(value = "/answer/all")
@@ -39,17 +38,13 @@ public class AnswerController {
         Answer returnAnswer = answerDAO.getByIdOptional(id)
                 .map(answer -> {
                     answer.setAnswerText(editAnswer.getAnswerText());
-                    answer.setQuestionID(editAnswer.getQuestionID());
-                    answer.setCategory(editAnswer.getCategory());
+                    answer.setParentQuestionID(editAnswer.getParentQuestionID());
+                    answer.setNextQuestion(editAnswer.getNextQuestion());
+                    answer.setAdvice(editAnswer.getAdvice());
                     return answerDAO.addAnswer(answer);
                 })
                 .orElseThrow(() -> new Exception(
                         "No answer found with id " + id + "\""));
-        List<Category> categories = new ArrayList<>();
-        for (Category category : returnAnswer.getCategory()) {
-            categories.add(categoryDAO.getById(category.getCategoryID()));
-        }
-        returnAnswer.setCategory(categories);
         return returnAnswer;
     }
 

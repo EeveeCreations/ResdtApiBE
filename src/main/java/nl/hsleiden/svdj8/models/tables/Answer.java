@@ -1,14 +1,15 @@
 package nl.hsleiden.svdj8.models.tables;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "answer")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "id_Sequence", sequenceName = "ID_SEQ")
     @Column(name = "answer_id")
     private Long answerID;
 
@@ -16,16 +17,19 @@ public class Answer {
     private String answerText;
 
     @Column(name = "question_id")
-    private Long questionID;
+    private Long parentQuestionID;
 
-    @ManyToMany
-    @JoinTable(
-            name = "answer_and_category",
-            joinColumns = @JoinColumn(name = "answer_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> category = new ArrayList<>();
+    @Nullable
+    @OneToOne(targetEntity = Question.class)
+    @JoinColumn(name = "next_question_id", referencedColumnName = "question_id")
+    private Question nextQuestionID;
 
-    public Answer(Long answerID, String answerText) {
+    @Nullable
+    @OneToOne(targetEntity = Advice.class)
+    @JoinColumn(name = "advice_id", referencedColumnName = "advice_id")
+    private Advice advice;
+
+    public Answer(java.lang.Long answerID, String answerText) {
         this.answerID = answerID;
         this.answerText = answerText;
     }
@@ -34,28 +38,20 @@ public class Answer {
 
     }
 
-    public Long getAnswerID() {
+    public java.lang.Long getAnswerID() {
         return answerID;
     }
 
-    public void setAnswerID(Long answerID) {
+    public void setAnswerID(java.lang.Long answerID) {
         this.answerID = answerID;
     }
 
-    public Long getQuestionID() {
-        return questionID;
+    public java.lang.Long getParentQuestionID() {
+        return parentQuestionID;
     }
 
-    public void setQuestionID(Long questionID) {
-        this.questionID = questionID;
-    }
-
-    public List<Category> getCategory() {
-        return category;
-    }
-
-    public void setCategory(List<Category> category) {
-        this.category = category;
+    public void setParentQuestionID(java.lang.Long parentLongID) {
+        this.parentQuestionID = parentLongID;
     }
 
     public String getAnswerText() {
@@ -66,4 +62,20 @@ public class Answer {
         this.answerText = answerText;
     }
 
+    public Question getNextQuestion() {
+        return nextQuestionID;
+    }
+
+    public void setNextQuestion(Question nextQuestion) {
+        this.nextQuestionID = nextQuestion;
+    }
+
+    @Nullable
+    public Advice getAdvice() {
+        return advice;
+    }
+
+    public void setAdvice(@Nullable Advice advice) {
+        this.advice = advice;
+    }
 }

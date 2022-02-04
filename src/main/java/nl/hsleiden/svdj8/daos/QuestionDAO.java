@@ -1,6 +1,5 @@
 package nl.hsleiden.svdj8.daos;
 
-import javassist.NotFoundException;
 import nl.hsleiden.svdj8.models.tables.Question;
 import nl.hsleiden.svdj8.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,9 @@ public class QuestionDAO {
     }
 
     public List<Question> getAll() {
-        ArrayList<Question> questions = (ArrayList<Question>) this.questionRepository.findAll();
-        questions.sort(Comparator.comparingLong(Question::getQuestionID));
-        return questions;
+        ArrayList<Question> aQuestions = (ArrayList<Question>) this.questionRepository.findAll();
+        aQuestions.sort(Comparator.comparingLong(Question::getQuestionID));
+        return aQuestions;
     }
 
     public Question getById(long id) {

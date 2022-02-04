@@ -1,6 +1,7 @@
 package nl.hsleiden.svdj8.models.tables;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "route")
@@ -8,7 +9,7 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "route_id")
-    private Long routeId;
+    private Long routeID;
 
     @Column(name = "total_time")
     private int totalTime;
@@ -16,6 +17,9 @@ public class Route {
     @OneToOne(targetEntity = Result.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "result_id", referencedColumnName = "result_id")
     private Result result;
+
+    @OneToMany(mappedBy = "routeID", targetEntity = GivenAnswer.class)
+    private List<GivenAnswer> givenAnswers;
 
     public Route(int totalTime, Result result) {
         this.totalTime = totalTime;
@@ -43,10 +47,18 @@ public class Route {
     }
 
     public Long getRouteID() {
-        return routeId;
+        return routeID;
     }
 
     public void setRouteID(Long routeId) {
-        this.routeId = routeId;
+        this.routeID = routeId;
+    }
+
+    public List<GivenAnswer> getGivenAnswers() {
+        return givenAnswers;
+    }
+
+    public void setGivenAnswers(List<GivenAnswer> givenAnswers) {
+        this.givenAnswers = givenAnswers;
     }
 }
