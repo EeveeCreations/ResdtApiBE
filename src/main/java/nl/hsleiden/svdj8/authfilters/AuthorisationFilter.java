@@ -41,8 +41,7 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                 (request.getServletPath().equals("/grant/{id}") && request.getMethod().equals("get"))) {
             filterChain.doFilter(request, response);
         } else {
-            Enumeration<String> headers = request.getHeaderNames();
-            String authorizationHeader = request.getHeader(AUTHORIZATION);
+             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
