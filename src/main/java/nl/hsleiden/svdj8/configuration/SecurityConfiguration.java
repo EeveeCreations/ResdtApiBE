@@ -63,10 +63,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSec.authorizeRequests().antMatchers(HttpMethod.GET,"grant/all").permitAll();
         httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").permitAll();
 
-        //        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"route/new").hasAnyAuthority("platform");
+        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"requestChangePassword").permitAll();
+        httpSec.authorizeRequests().antMatchers(HttpMethod.POST,"resetPassword").permitAll();
 
     }
-
 
     @Bean
     @Override

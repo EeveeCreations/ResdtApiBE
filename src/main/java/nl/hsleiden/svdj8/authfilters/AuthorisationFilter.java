@@ -37,10 +37,13 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                 request.getServletPath().equals("/grant/all") ||
                 request.getServletPath().equals("/route/new") ||
                 (request.getServletPath().startsWith("/advice/") && request.getMethod().equals("GET")) ||
-                (request.getServletPath().startsWith("/answer/") && request.getMethod().equals("GET"))) {
-                filterChain.doFilter(request, response);
+                (request.getServletPath().startsWith("/answer/") && request.getMethod().equals("GET")) ||
+                request.getServletPath().equals("/requestChangePassword") ||
+                request.getServletPath().equals("/resetPassword")
+        ) {
+            filterChain.doFilter(request, response);
         } else {
-             String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
@@ -59,7 +62,7 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                     new ObjectMapper().writeValue(response.getOutputStream(), errors);
                 }
             } else {
-                response.setHeader("errors", "no authizati");
+                response.setHeader("errors", "no authizatie");
                 Map<String, String> errors = new HashMap<>();
                 errors.put("errors", "no auth");
                 response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);

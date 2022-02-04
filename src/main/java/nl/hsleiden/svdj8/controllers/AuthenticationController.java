@@ -79,6 +79,7 @@ public class AuthenticationController {
         Admin admin = this.adminDAO.getAdminByName(email);
         if (admin == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
         }
         this.emailService.setUpEmail(email, admin);
         response.setStatus(HttpServletResponse.SC_FOUND);
@@ -89,10 +90,10 @@ public class AuthenticationController {
       @PostMapping(value = "/resetPassword")
     public Admin resetPassword(
             HttpServletResponse response,
-            @RequestBody String newPassword, @RequestBody String email) {
-        Admin admin = this.adminDAO.getAdminByName(email);
-        if (admin == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            @RequestBody String newPassword, @RequestBody String email, @RequestBody String passwordToken) {
+        String emailOfToken = tokenService.getUserNameFromToken(passwordToken);
+        if(!emailOfToken.equals(email)){
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
         return adminDAO.updatePassword(newPassword, email);
     }

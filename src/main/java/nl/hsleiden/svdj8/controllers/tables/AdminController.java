@@ -18,11 +18,6 @@ public class AdminController {
         this.adminDAO = adminDAO;
     }
 
-    @GetMapping(value = "/admin/all")
-    public List<Admin> getAllAdmins() {
-        return adminDAO.getAll();
-    }
-
     @GetMapping(value = "/admin/{id}")
     public Admin getAdmin(@PathVariable final Long id) {
         return adminDAO.getById(id);
