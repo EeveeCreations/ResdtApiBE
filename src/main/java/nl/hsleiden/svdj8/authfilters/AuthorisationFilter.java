@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +37,10 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                 request.getServletPath().equals("/grant/all") ||
                 request.getServletPath().equals("/route/new") ||
                 request.getServletPath().equals("/route/new") ||
-                (request.getServletPath().equals("/grant/{id}") && request.getMethod().equals("get"))) {
-            filterChain.doFilter(request, response);
+                (request.getServletPath().equals("/grant/{id}") && request.getMethod().equals("GET")) ||
+                (request.getServletPath().equals("/answer/{id}") && request.getMethod().equals("GET"))) {
+
+                filterChain.doFilter(request, response);
         } else {
              String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
