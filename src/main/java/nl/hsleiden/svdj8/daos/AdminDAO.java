@@ -23,7 +23,6 @@ public class AdminDAO  implements UserDetailsService {
     private AdminRepository adminRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
-//    private final PasswordEncoder passwordEncoder;
 
     public List<Admin> getAll() {
         ArrayList<Admin> admins = (ArrayList<Admin>) adminRepository.findAll();

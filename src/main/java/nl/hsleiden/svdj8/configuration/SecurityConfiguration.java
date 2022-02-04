@@ -40,7 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         httpSec.csrf().disable();
         httpSec.cors();
-//        httpSec.
         httpSec.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         chooseAuthorisedRequests(httpSec);
         httpSec.addFilter(authenticationFilter);
