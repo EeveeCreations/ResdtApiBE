@@ -37,9 +37,8 @@ public class AuthorisationFilter extends OncePerRequestFilter {
                 request.getServletPath().equals("/grant/all") ||
                 request.getServletPath().equals("/route/new") ||
                 request.getServletPath().equals("/route/new") ||
-                (request.getServletPath().equals("/grant/{id}") && request.getMethod().equals("GET")) ||
-                (request.getServletPath().equals("/answer/{id}") && request.getMethod().equals("GET"))) {
-
+                (request.getServletPath().startsWith("/grant/") && request.getMethod().equals("GET")) ||
+                (request.getServletPath().startsWith("/answer/") && request.getMethod().equals("GET"))) {
                 filterChain.doFilter(request, response);
         } else {
              String authorizationHeader = request.getHeader(AUTHORIZATION);
