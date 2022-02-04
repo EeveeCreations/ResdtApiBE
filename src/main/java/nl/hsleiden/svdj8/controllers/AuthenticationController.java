@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import nl.hsleiden.svdj8.daos.AdminDAO;
 import nl.hsleiden.svdj8.models.tables.Admin;
+import nl.hsleiden.svdj8.services.EmailService;
 import nl.hsleiden.svdj8.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -70,8 +72,8 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping(value = "/requestchangepassword")
-    public void sendEmailToReset(
+    @PostMapping(value = "/requestChangePassword")
+    public String sendEmailToReset(
             HttpServletResponse response,
             @RequestBody String email) {
         Admin admin = this.adminDAO.getAdminByName(email);
@@ -80,17 +82,19 @@ public class AuthenticationController {
         }
         this.emailService.setUpEmail(email, admin);
         response.setStatus(HttpServletResponse.SC_FOUND);
+        return email;
     }
 
-    @PostMapping(value = "/resetPassword")
+
+      @PostMapping(value = "/resetPassword")
     public Admin resetPassword(
             HttpServletResponse response,
-            @RequestBody String newPassword, @RequestBody String passwordToken) {
-        String name = this.emailService.checkTokenForAdmin(passwordToken);
-        if (name == null) {
+            @RequestBody String newPassword, @RequestBody String email) {
+        Admin admin = this.adminDAO.getAdminByName(email);
+        if (admin == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        return adminDAO.updatePassword(newPassword, name);
+        return adminDAO.updatePassword(newPassword, email);
     }
 
 }
