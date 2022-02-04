@@ -40,7 +40,7 @@ public class EmailService extends SimpleMailMessage {
     }
 
     public void sendEmail(String to, Admin admin){
-        String from = "svdj@NoReply.com";
+        String from = "svdj@noreply.com";
         String host = "smtp.gmail.com";
         Properties properties = setMailProperties(host);
         Session session = setSession(properties);
