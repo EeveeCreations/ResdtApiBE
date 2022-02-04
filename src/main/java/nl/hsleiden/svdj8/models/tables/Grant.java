@@ -12,11 +12,13 @@ public class Grant {
 
     private String name;
     private String description;
+    private String grant_link;
 
-    public Grant(Long grantID, String name, String description) {
+    public Grant(Long grantID, String name, String description, String grant_link) {
         this.grantID = grantID;
         this.name = name;
         this.description = description;
+        this.grant_link = grant_link;
     }
 
     public Grant() {
@@ -47,4 +49,11 @@ public class Grant {
         this.description = description;
     }
 
+    public String getGrant_link() {
+        return grant_link;
+    }
+
+    public void setGrant_link(String grant_link) {
+        this.grant_link = grant_link;
+    }
 }
