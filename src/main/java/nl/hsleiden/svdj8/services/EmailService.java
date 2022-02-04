@@ -25,7 +25,7 @@ public class EmailService extends SimpleMailMessage {
     }
 
     public void createEmail(String email, Admin admin){
-        String passwordToken = JWT.create(admin.getName()).sign(tokenService.returnAlgorithm());
+//        String passwordToken = JWT.create(admin.getName()).sign(tokenService.returnAlgorithm());
 
     }
 
