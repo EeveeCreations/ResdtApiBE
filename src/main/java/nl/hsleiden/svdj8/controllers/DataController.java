@@ -1,7 +1,6 @@
 package nl.hsleiden.svdj8.controllers;
 
 import nl.hsleiden.svdj8.models.Data;
-import nl.hsleiden.svdj8.services.ConstructService;
 import nl.hsleiden.svdj8.services.DeconstructService;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +13,6 @@ public class DataController {
     private static DataController dataController;
 
     DeconstructService deconstructService;
-    ConstructService constructService;
 
     public static DataController getInstance() {
         if (dataController == null) {

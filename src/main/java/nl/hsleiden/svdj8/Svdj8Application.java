@@ -34,21 +34,15 @@ public class Svdj8Application {
     @Bean
     CommandLineRunner runner(AdminDAO adminDAO) {
         return args -> {
-//				adminDAO.addAdmin(new Admin(null,"Eevee","root112","Admin"));
-//							adminDAO.addAdmin(new Admin(null,"Eevee2","3ff1d66d2b6f0a0121f7a88d4de4d75d","Admin"));
-//            adminDAO.addAdmin(new Admin(null, "Admin", "114663ab194edcb3f61d409883ce4ae6c3c2f9854194095a5385011d15becbef" //admin12
-//                    , "Admin"));
 //            adminDAO.addAdmin(new Admin(null,"Mariet@svdj.nl","114663ab194edcb3f61d409883ce4ae6c3c2f9854194095a5385011d15becbef" //admin12
 //                    ,"Admin"));
-
-//							adminDAO.addAdmin(new Admin(null,"Brandon","Noodels","Admin"));
         };
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200/","https://www.svdj.nl/"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Origin", "content-type", "contenttype"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Origin", "content-type", "contenttype"));
@@ -56,15 +50,12 @@ public class Svdj8Application {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:4200/");
-//                registry.addMapping("/**").allowedOrigins("*");
-
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200/","https://www.svdj.nl/");
                 registry.addMapping("/**").allowedHeaders("Authorization", "Origin", "Content-type");
 
 
@@ -94,7 +85,6 @@ public class Svdj8Application {
                 Collections.emptyList());
     }
 
-    //	Authentication
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

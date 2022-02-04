@@ -1,16 +1,13 @@
 package nl.hsleiden.svdj8.controllers;
 
-import nl.hsleiden.svdj8.daos.QuestionDAO;
 import nl.hsleiden.svdj8.models.Data;
 import nl.hsleiden.svdj8.models.Statement;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StatementController {
     private static StatementController statementController;
-//    QuestionDAO dao = QuestionDAO.getInstance();
 
     Statement statements = new Statement();
 
@@ -21,11 +18,6 @@ public class StatementController {
         return statementController;
     }
 
-//    @GetMapping("/questions")
-//    public void getAllQuestionsForRoute(){
-//
-//    }
-
     public boolean getCreateStatement(Data data) {
         String statementCreate = "INSERT INTO" + data.getGivenVariables().get("class")
                 + "VARIABLES(" + data.getGivenVariables().get("columns") + ")";
@@ -33,7 +25,6 @@ public class StatementController {
             statementCreate += "WHERE" + data.getGivenVariables().get("where");
         }
         statements.setCreateStatement(new StringBuilder(statementCreate));
-//        return dao.sendQuery(statementCreate);
         return true;
     }
 
