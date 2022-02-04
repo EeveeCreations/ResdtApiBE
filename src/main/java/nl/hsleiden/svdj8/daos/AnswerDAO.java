@@ -1,6 +1,5 @@
 package nl.hsleiden.svdj8.daos;
 
-import javassist.NotFoundException;
 import nl.hsleiden.svdj8.models.tables.Answer;
 import nl.hsleiden.svdj8.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

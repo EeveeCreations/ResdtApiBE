@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@CrossOrigin(origins = "*")
 public class QuestionController {
 
     @Autowired
@@ -24,7 +24,6 @@ public class QuestionController {
         this.answerDAO = answerDAO;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/question/all")
     public List<Question> getAllQuestions() {
         return questionDAO.getAll();

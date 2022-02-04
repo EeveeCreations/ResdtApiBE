@@ -3,15 +3,13 @@ package nl.hsleiden.svdj8.controllers.tables;
 import nl.hsleiden.svdj8.daos.AnswerDAO;
 import nl.hsleiden.svdj8.daos.AdviceDAO;
 import nl.hsleiden.svdj8.models.tables.Answer;
-import nl.hsleiden.svdj8.models.tables.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@CrossOrigin(origins = "*")
 public class AnswerController {
 
     @Autowired

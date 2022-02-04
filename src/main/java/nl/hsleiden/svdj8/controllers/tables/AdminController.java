@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     @Autowired
@@ -50,5 +50,4 @@ public class AdminController {
     public void deleteAdmin(@PathVariable Long id) {
         adminDAO.deleteAdmin(id);
     }
-
 }
