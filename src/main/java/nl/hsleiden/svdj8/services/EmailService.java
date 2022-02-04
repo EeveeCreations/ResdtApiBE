@@ -76,7 +76,7 @@ public class EmailService extends SimpleMailMessage {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("fromaddress@gmail.com", "*******");
+                return new PasswordAuthentication("eeveethestudent@gmail.com", "ThisIsStudentOnly38");
 
             }
 
